@@ -25,11 +25,22 @@ xcurl() {
         -H "User-Agent: $user_agent" \
         "$@"
 }
+html=$(xcurl 'https://inpost.pl/godziny-odbiorow')
+re=' data-csv-file="([^"]+)".* data-new-csv-file="([^"]+)"'
+if [[ $html =~ $re ]]
+then
+    csv_path=${BASH_REMATCH[1]}
+    new_csv_path=${BASH_REMATCH[2]}
+else
+    echo "$prog: scraping error: cannot determine CSV paths" >&2
+    exit 1
+fi
+data='{"zipcode":"'"$zip"'","csv_path":"'"$csv_path"'","new_csv_path":"'"$new_csv_path"'"}'
 json=$(
 xcurl 'https://inpost.pl/godziny-odbiorow/sprawdz' \
     -H 'Accept: application/json, text/javascript, */*; q=0.01' \
     -H 'X-Requested-With: XMLHttpRequest' \
-    --data-raw '{"zipcode":"'"$zip"'"}'
+    --data-raw "$data"
 )
 zone=$(jq -r .zone <<< "$json")
 case $zone in
