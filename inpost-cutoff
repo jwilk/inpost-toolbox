@@ -19,9 +19,14 @@ case $zip in
     *) bad_usage;
 esac
 user_agent='Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0'
+xcurl() {
+    curl \
+        --silent --fail --show-error \
+        -H "User-Agent: $user_agent" \
+        "$@"
+}
 json=$(
-curl -s 'https://inpost.pl/godziny-odbiorow/sprawdz' \
-    -H "User-Agent: $user_agent" \
+xcurl 'https://inpost.pl/godziny-odbiorow/sprawdz' \
     -H 'Accept: application/json, text/javascript, */*; q=0.01' \
     -H 'X-Requested-With: XMLHttpRequest' \
     --data-raw '{"zipcode":"'"$zip"'"}'
