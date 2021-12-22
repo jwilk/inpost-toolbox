@@ -26,7 +26,7 @@ xcurl() {
         "$@"
 }
 html=$(xcurl 'https://inpost.pl/godziny-odbiorow')
-re=' data-csv-file="([^"]+)".* data-new-csv-file="([^"]+)"'
+re=' data-csv-file="([^"]+)".* data-new-csv-file="([^"]*)"'
 if [[ $html =~ $re ]]
 then
     csv_path=${BASH_REMATCH[1]}
