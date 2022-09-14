@@ -12,7 +12,7 @@ echo 1..1
 if [ -z "${JWILK_INPOST_TOOLBOX_NETWORK_TESTING-}" ]
 then
     echo '# set JWILK_INPOST_TOOLBOX_NETWORK_TESTING=1 to enable network tests' >&2
-    echo not ok 1 
+    echo not ok 1
     exit 1
 fi
 
